@@ -1,7 +1,18 @@
-This is my page
+#load "YahooFinance.fsx"
 
-let list [1;3;5]
+open YahooFinance
 
-list
+let twnk = YahooFinance.PriceHistory("TWNK")
 
-(***include it***)
+twnk.[..3]
+
+#r "nuget: Plotly.NET, 2.0.0-preview.17"
+
+open Plotly.NET
+
+twnk
+
+|> List.map(fun day -> day.Date, day.AdjustedClose)
+|> Chart.Line
+|> GenericChart.toChartHTML
+(***include-it-raw***)
